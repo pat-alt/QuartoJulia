@@ -1,5 +1,5 @@
 ---
-title: "Julia and Quarto: a match made in heaven?"
+title: "Julia and Quarto: a match made in heaven? 🌤"
 subtitle: JuliaCon 2022
 author: Patrick Altmeyer
 format: 
@@ -25,6 +25,8 @@ execute:
 
 ## Quarto -- A New (Old) Way to Publish Science
 
+> A plain Markdown document blended with **your favourite programming language** of your choice and a YAML header defining your output.
+
 :::{.incremental}
 - Have used R Markdown for many years for essentially anything work-related.
 - Generate multiple different output formats with ease:
@@ -37,9 +39,6 @@ execute:
 - All of this starting from the same place ...
 :::
 
-. . .
-
-> ... a plain Markdown document blended with **your favourite programming language** of your choice and a YAML header defining your output.
 
 ## Julia and Quarto: a perfect match 💙💜💚
 
