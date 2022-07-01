@@ -6,7 +6,7 @@ format:
   revealjs:
     logo: www/delft_logo.png
     footer: |
-      Julia and Quarto: a match made in heaven? -- JuliaCon 2022 -- Patrick Altmeyer
+      Julia and Quarto: a match made in heaven? 🌤 -- JuliaCon 2022 -- Patrick Altmeyer
     self-contained: true
     smaller: true
     scrollable: true
@@ -25,9 +25,6 @@ execute:
 
 ## Quarto -- A New (Old) Way to Publish Science
 
-> A plain Markdown document blended with **your favourite programming language** of your choice and a YAML header defining your output.
-
-:::{.incremental}
 - Have used R Markdown for many years for essentially anything work-related.
 - Generate multiple different output formats with ease:
     - The old school: LaTeX and PDF (including [Beamer](https://quarto.org/docs/presentations/beamer.html)); MS Office
@@ -37,29 +34,51 @@ execute:
         - apps
         - ...
 - All of this starting from the same place ...
-:::
+
+> A plain Markdown document blended with **your favourite programming language** of your choice and a YAML header defining your output.
 
 
 ## Julia and Quarto: a perfect match 💙💜💚
 
 ::::{.columns}::::
 :::{.column width='50%'}
+
+:::{.fragment .fade-down}
+
 #### Preferred setup: VSCode, Quarto and Julia
 
 - Can switch between Jupyter and `.qmd` with ease.
 - When working with `.qmd`, code chunks connect to REPL.
 
+:::
+
+:::{.fragment .fade-right}
+
 #### `Documenter.jl` and Quarto
 
-- Generally play nice with each other (both Markdown based).
+
+- [Generally](https://github.com/quarto-dev/quarto-cli/discussions/408) play nicely with each other (both Markdown based).
+
+```yaml
+format: 
+  commonmark:
+    variant: -raw_html
+```
+
 - You get some stuff for free, e.g. citation management.
-- Cross-referencing unfortunately not working ...
+- Unfotunately lose support for cross-referencing ...
+
+:::
+
+:::{.fragment .fade-up}
 
 #### Suggestion: Quarto for JuliaCon Proceedings
 
 - Quarto supports LaTex templates/classes ...
 - ... but why only publish proceedings in PDF form?
 - Quarto opens gateway to more innovative forms of publishing!
+
+:::
 
 :::
 :::{.column width='50%'}
