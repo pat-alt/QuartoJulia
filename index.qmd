@@ -1,0 +1,143 @@
+---
+title: "Julia and Quarto: a match made in heaven?"
+subtitle: JuliaCon 2022
+author: Patrick Altmeyer
+format: 
+  revealjs:
+    logo: www/delft_logo.png
+    footer: |
+      Explaining Black-Box Models through Counterfactuals -- JuliaCon 2022 -- Patrick Altmeyer
+    self-contained: true
+    smaller: true
+    scrollable: true
+    preview-links: auto
+    slide-number: true
+    transition: slide
+    background-transition: fade
+    fig-align: center
+bibliography: https://raw.githubusercontent.com/pat-alt/bib/main/bib.bib
+execute:
+  eval: false
+  echo: true
+---
+
+## Quarto -- A New Way to Publish Science
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Julia and Quarto: a perfect match 💙💜💚
+
+::::{.columns}::::
+:::{.column width='50%'}
+:::
+:::{.column width='50%'}
+
+```{julia}
+#| code-fold: true
+using Javis, Animations, Colors
+www_path = "www"
+
+size = 600
+radius_factor = 0.33
+
+function ground(args...)
+    background("transparent")
+    sethue("white")
+end
+
+function rotate_anim(idx::Number, total::Number) 
+    distance_circle = 0.875
+    steps = collect(range(distance_circle,1-distance_circle,length=total))
+    Animation(
+        [0, 1], # must go from 0 to 1
+        [0, steps[idx]*2π],
+        [sineio()],
+    )
+end
+
+translate_anim = Animation(
+    [0, 1], # must go from 0 to 1
+    [O, Point(size*radius_factor, 0)],
+    [sineio()],
+)
+
+translate_back_anim = Animation(
+    [0, 1], # must go from 0 to 1
+    [O, Point(-(size*radius_factor), 0)],
+    [sineio()],
+)
+
+julia_colours = Dict(
+    :blue => "#4063D8",
+    :green => "#389826",
+    :purple => "#9558b2",
+    :red => "#CB3C33"
+)
+colour_order = [:red, :purple, :green, :blue]
+n_colours = length(julia_colours)
+function color_anim(start_colour::String, quarto_col::String="#4b95d0")
+    Animation(
+        [0, 1], # must go from 0 to 1
+        [Lab(color(start_colour)), Lab(color(quarto_col))],
+        [sineio()],
+    )
+end
+
+video = Video(size, size)
+
+frame_starts = 1:10:40
+n_total = 250
+n_frames = 150
+Background(1:n_total, ground)
+
+# Blob:
+function element(; radius = 1)
+    circle(O, radius, :fill) # The 4 is to make the circle not so small
+end
+
+# Cross:
+function cross(color="black";orientation=:horizontal)
+    sethue(color)
+    setline(10)
+    if orientation==:horizontal
+        out = line(Point(-size,0),Point(size,0), :stroke)
+    else
+        out = line(Point(0,-size),Point(0,size), :stroke)
+    end
+    return out
+end
+
+for (i, frame_start) in enumerate(1:10:40)
+
+    # Julia circles:
+    blob = Object(frame_start:n_total, (args...;radius=1) -> element(;radius=radius))
+    act!(blob, Action(1:Int(round(n_frames*0.25)), change(:radius, 1 => 75))) # scale up
+    act!(blob, Action(n_frames:(n_frames+50), change(:radius, 75 => 250))) # scale up further
+    act!(blob, Action(1:30, translate_anim, translate()))
+    act!(blob, Action(31:120, rotate_anim(i, n_colours), rotate_around(Point(-(size*radius_factor), 0))))
+    act!(blob, Action(121:150, translate_back_anim, translate()))
+    act!(blob, Action(1:150, color_anim(julia_colours[colour_order[i]]), sethue()))
+
+    # Quarto cross:
+    cross_h = Object((n_frames+50):n_total, (args...) -> cross(;orientation=:horizontal))
+    cross_v = Object((n_frames+50):n_total, (args...) -> cross(;orientation=:vertical))
+end
+
+render(
+    video;
+    pathname = joinpath(www_path, "intro.gif"),
+)
+```
+
+![Julia and Quarto: a perfect match. Image by author (heavily borrowing from `Javis.jl` [tutorial](https://juliaanimators.github.io/Javis.jl/stable/tutorials/tutorial_7/))](www/intro.gif)
+
+:::
+::::
+
+
+
+## `Documenter.jl` and Quarto
+
+## Suggestion: Quarto for JuliaCon Proceedings
+
+## More Resources 📚
